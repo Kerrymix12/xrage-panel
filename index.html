@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>XRAGE PANEL</title>
+<style>
+html,body{
+  margin:0; padding:0; background:#000;
+  overflow:hidden; touch-action:none;
+}
+#line{
+  position:fixed; left:50%; top:0;
+  width:2px; height:100%;
+  background:rgba(0,255,255,.65);
+  transform:translateX(-50%);
+}
+#head{
+  position:fixed; left:50%; top:22%;
+  width:16px; height:16px;
+  background:#ff1e1e;
+  border-radius:50%;
+  transform:translateX(-50%);
+  box-shadow:0 0 16px #ff1e1e;
+}
+#zone{
+  position:fixed; left:50%; top:18%;
+  width:60px; height:90px;
+  border:1px solid rgba(255,255,255,.25);
+  transform:translateX(-50%);
+}
+</style>
+</head>
+<body>
+
+<div id="line"></div>
+<div id="zone"></div>
+<div id="head"></div>
+
+<script>
+let lastY=null;
+
+/* ULTRA AGRESIVO */
+const trigger = 2;   // responde con toque mínimo
+const boost   = 5.2; // subida vertical MUY fuerte
+const timing  = 42;  // timing de cabeza
+
+document.addEventListener("touchstart",e=>{
+  lastY=e.touches[0].clientY;
+});
+
+document.addEventListener("touchmove",e=>{
+  const y=e.touches[0].clientY;
+  const dy=lastY-y;
+  if(Math.abs(dy)>trigger){
+    const amp=dy*boost;
+    if(amp>timing && amp<timing+24){
+      if(navigator.vibrate) navigator.vibrate(12);
+    }
+  }
+  lastY=y;
+});
+</script>
+
+</body>
+</html>
